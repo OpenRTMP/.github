@@ -2,7 +2,7 @@
 
 Modern, open-source RTMP and Enhanced RTMP protocol stack for streaming applications.
 
-[![License](https://img.shields.io/badge/license-MIT%2FISC-blue)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![Language](https://img.shields.io/badge/language-C-blue)]()
 [![Status](https://img.shields.io/badge/status-alpha-orange)]()
 
@@ -16,6 +16,7 @@ The project is split into focused, reusable components:
 
 - **[librtmp2](https://github.com/OpenRTMP/librtmp2)** — Core protocol library
 - **[librtmp2-server](https://github.com/OpenRTMP/librtmp2-server)** — Ready-to-run media server
+- **[librtmp2-server-panel](https://github.com/OpenRTMP/librtmp2-server-panel)** — Web management panel
 - **[.github](https://github.com/OpenRTMP/.github)** — Organization documentation and CI/CD
 
 ---
@@ -61,6 +62,27 @@ A lightweight, production-ready RTMP/E-RTMP media server built on librtmp2. Hand
 - Live streaming platforms
 - Broadcast relay
 - Multi-protocol ingestion
+
+---
+
+### 🖥️ [librtmp2-server-panel](https://github.com/OpenRTMP/librtmp2-server-panel)
+
+A lightweight Flask web panel for managing librtmp2-server. Create streams, monitor stats, and manage keys — all from a browser.
+
+**Key Features:**
+- 🌐 Web-based stream management (create, delete, monitor)
+- 📊 Live stream statistics (bitrate, codec, viewership)
+- 🔐 Key-based publish and play URL generation
+- 🔒 CSRF protection, rate limiting, encrypted key storage
+- 🐳 Docker-ready deployment
+- 🔐 Bearer token authentication for API coordination
+- 🍞 Bootstrap dark theme
+
+**Perfect for:**
+- Stream operators managing live events
+- Production stream monitoring
+- Multi-user stream management
+- Integrating librtmp2-server into custom tooling
 
 ---
 
@@ -118,6 +140,17 @@ make debug                    # Build
 ```
 
 See [librtmp2-server README](https://github.com/OpenRTMP/librtmp2-server#quick-start) for deployment.
+
+### Using librtmp2-server-panel (Web Panel)
+
+```bash
+git clone https://github.com/OpenRTMP/librtmp2-server-panel.git
+cd librtmp2-server-panel
+cp .env.example .env   # Edit with your settings
+docker compose up -d   # Access at http://localhost:8000
+```
+
+See [librtmp2-server-panel README](https://github.com/OpenRTMP/librtmp2-server-panel#quick-start) for configuration.
 
 ---
 
@@ -206,12 +239,7 @@ We welcome bug reports, feature requests, and pull requests. Please open an issu
 
 ## License
 
-All OpenRTMP projects are dual-licensed:
-
-- **MIT License** — Most permissive, suitable for commercial use
-- **ISC License** — Alternative open-source license
-
-Pick the one that works best for you. See individual repositories for LICENSE file.
+All OpenRTMP projects are licensed under the **MIT License** — free to use, modify, and distribute, including for commercial purposes. See individual repositories for the LICENSE file.
 
 ---
 
@@ -234,6 +262,11 @@ Pick the one that works best for you. See individual repositories for LICENSE fi
 - [ ] RTMPS (RTMP over TLS) listener
 - [ ] Load balancing and clustering
 - [ ] Grafana/Prometheus stats export
+
+### librtmp2-server-panel
+- [ ] Multi-user support with role-based access
+- [ ] Stream health alerts and notifications
+- [ ] OAuth/OIDC integration
 
 ---
 
