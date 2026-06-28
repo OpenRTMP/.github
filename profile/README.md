@@ -261,12 +261,6 @@ All OpenRTMP projects are licensed under the **MIT License** — free to use, mo
 ### librtmp2-server
 - [ ] RTMPS (RTMP over TLS) listener
 - [ ] Load balancing and clustering
-- [ ] Grafana/Prometheus stats export
-
-### librtmp2-server-panel
-- [ ] Multi-user support with role-based access
-- [ ] Stream health alerts and notifications
-- [ ] OAuth/OIDC integration
 
 ---
 
