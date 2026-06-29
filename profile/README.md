@@ -3,8 +3,8 @@
 Modern, open-source RTMP and Enhanced RTMP protocol stack for streaming applications.
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![Language](https://img.shields.io/badge/language-Rust-orange)]()
-[![Status](https://img.shields.io/badge/status-alpha-orange)]()
+![Language](https://img.shields.io/badge/language-Rust-orange)
+![Status](https://img.shields.io/badge/status-alpha-orange)
 
 ---
 
@@ -90,7 +90,7 @@ A lightweight Flask web panel for managing librtmp2-server. Create streams, moni
 
 `librtmp2` and `librtmp2-server` are both Rust, but independent codebases today — the server does not yet depend on the `librtmp2` crate for its RTMP listener.
 
-```
+```text
 ┌─────────────────────┐
 │  OBS / FFmpeg / App │
 └──────────┬───────────┘
