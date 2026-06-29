@@ -3,7 +3,7 @@
 Modern, open-source RTMP and Enhanced RTMP protocol stack for streaming applications.
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![Language](https://img.shields.io/badge/language-C-blue)]()
+[![Languages](https://img.shields.io/badge/languages-C%20%7C%20Rust-blue)]()
 [![Status](https://img.shields.io/badge/status-alpha-orange)]()
 
 ---
@@ -14,10 +14,12 @@ OpenRTMP provides a complete, production-ready implementation of RTMP (Real-Time
 
 The project is split into focused, reusable components:
 
-- **[librtmp2](https://github.com/OpenRTMP/librtmp2)** — Core protocol library
-- **[librtmp2-server](https://github.com/OpenRTMP/librtmp2-server)** — Ready-to-run media server
+- **[librtmp2](https://github.com/OpenRTMP/librtmp2)** — Core protocol library (C)
+- **[librtmp2-server](https://github.com/OpenRTMP/librtmp2-server)** — Ready-to-run media server (Rust)
 - **[librtmp2-server-panel](https://github.com/OpenRTMP/librtmp2-server-panel)** — Web management panel
 - **[.github](https://github.com/OpenRTMP/.github)** — Organization documentation and CI/CD
+
+> **Note:** `librtmp2` (C) and `librtmp2-server` (Rust) are separate codebases. `librtmp2-server` is building its own RTMP/E-RTMP protocol layer in Rust rather than binding the C library — see [Architecture](#architecture) below.
 
 ---
 
@@ -32,6 +34,7 @@ A modern C library implementing the complete RTMP protocol stack. Pure protocol 
 - ✅ E-RTMP v1: ExVideo, FourCC codecs (HEVC, AV1, VP9), HDR metadata
 - ✅ E-RTMP v2: Capability negotiation, reconnect, multitrack, ModEx
 - ✅ AMF0/AMF3 encoding and decoding
+- ✅ RTMPS (RTMP over TLS) via OpenSSL, optional at build time (`make TLS=0`)
 - ✅ Callback-based architecture for full control
 - ✅ Fuzz-tested parser safety
 - ✅ FFI-compatible for Rust, Go, Python, PHP, and others
@@ -46,22 +49,20 @@ A modern C library implementing the complete RTMP protocol stack. Pure protocol 
 
 ### 🎥 [librtmp2-server](https://github.com/OpenRTMP/librtmp2-server)
 
-A lightweight, production-ready RTMP/E-RTMP media server built on librtmp2. Handles ingest, playback, and stats with minimal overhead.
+A media server written in **Rust** (axum + rusqlite) that owns everything around the RTMP protocol — config, persistence, HTTP/REST API, CLI, logging, and stream key generation.
 
 **Key Features:**
-- 🎬 RTMP and E-RTMP v1/v2 ingest and playback
 - 💾 SQLite-backed persistence (streams, publishers, players, stats)
 - 🔐 Key-based access control (`publish_key`, `play_key`, `stats_key`)
 - 📊 JSON and Nginx-compatible XML stats endpoints
-- 🔌 REST API for stream management
+- 🔌 REST API for stream management (Bearer token auth)
 - 🐳 Docker-ready with Alpine base
-- ⚡ Low resource footprint
+- ⚠️ **In progress:** the actual RTMP/E-RTMP wire protocol is a separate Rust crate that is not yet wired into the server's listener — see [`src/server.rs`](https://github.com/OpenRTMP/librtmp2-server/blob/main/src/server.rs)
 
 **Perfect for:**
-- Private streaming infrastructure
-- Live streaming platforms
-- Broadcast relay
-- Multi-protocol ingestion
+- Private streaming infrastructure (once protocol integration lands)
+- Stream key/stats/API tooling around an RTMP deployment
+- Contributors interested in finishing the Rust RTMP integration
 
 ---
 
@@ -88,37 +89,35 @@ A lightweight Flask web panel for managing librtmp2-server. Create streams, moni
 
 ## Architecture
 
+`librtmp2` (C) and `librtmp2-server` (Rust) are independent codebases today — the server is not yet calling into the C library, and is instead growing its own Rust RTMP implementation.
+
 ```
 ┌─────────────────────┐
-│  OBS / FFmpeg /App  │
-└──────────────┬──────┘
-               │
-               ▼
-        ┌──────────────┐
-        │  librtmp2    │  ← Pure protocol
-        ├──────────────┤
-        │ Handshake    │
-        │ Chunking     │
-        │ AMF 0/3      │
-        │ Commands     │
-        │ E-RTMP v1/v2 │
-        └──────────────┘
-               ▲
-               │
-    ┌──────────┴──────────┐
-    │                     │
-┌───┴─────────┐  ┌────────┴──────────┐
-│  librtmp2   │  │ Custom App        │
-│  -server    │  │ (Relay, Plugin,   │
-│             │  │  etc.)            │
-└─────────────┘  └──────────────────┘
+│  OBS / FFmpeg / App │
+└──────────┬───────────┘
+           │
+           ▼
+   ┌───────────────┐        ┌─────────────────────────┐
+   │  librtmp2 (C) │        │  librtmp2-server (Rust)  │
+   ├───────────────┤        ├─────────────────────────┤
+   │ Handshake     │        │ HTTP API (axum)          │
+   │ Chunking      │        │ SQLite persistence       │
+   │ AMF 0/3       │        │ Stream keys / stats      │
+   │ Commands      │        │ RTMP listener: pending,  │
+   │ E-RTMP v1/v2  │        │  blocked on Rust RTMP    │
+   │ RTMPS (TLS)   │        │  crate integration       │
+   └───────────────┘        └─────────────────────────┘
+           ▲
+           │
+   Embed directly into your own
+   server / relay / plugin (FFI)
 ```
 
 ---
 
 ## Quick Start
 
-### Using librtmp2 (Protocol Library)
+### Using librtmp2 (Protocol Library, C)
 
 ```bash
 git clone https://github.com/OpenRTMP/librtmp2.git
@@ -128,18 +127,18 @@ make test                     # Run tests
 make install                  # Install to /usr/local
 ```
 
-See [librtmp2 README](https://github.com/OpenRTMP/librtmp2#quick-start) for examples.
+See [librtmp2 README](https://github.com/OpenRTMP/librtmp2#build) for examples.
 
-### Using librtmp2-server (Media Server)
+### Using librtmp2-server (Media Server, Rust)
 
 ```bash
 git clone https://github.com/OpenRTMP/librtmp2-server.git
 cd librtmp2-server
-make debug                    # Build
-./build/server               # Run server (listens on :1935 and :8080)
+cargo build --release
+./target/release/librtmp2-server -c config.example.json
 ```
 
-See [librtmp2-server README](https://github.com/OpenRTMP/librtmp2-server#quick-start) for deployment.
+See [librtmp2-server README](https://github.com/OpenRTMP/librtmp2-server#build) for configuration and deployment. Note: RTMP ingest is not yet live — see the Architecture section above.
 
 ### Using librtmp2-server-panel (Web Panel)
 
@@ -158,9 +157,9 @@ See [librtmp2-server-panel README](https://github.com/OpenRTMP/librtmp2-server-p
 
 | Use Case | Solution |
 |----------|----------|
-| **OBS/FFmpeg Plugin** | Use `librtmp2` to add RTMP ingest support |
-| **Private RTMP Relay** | Deploy `librtmp2-server` or use `librtmp2` to build custom relay |
-| **Live Streaming Platform** | Start with `librtmp2-server` API, extend as needed |
+| **OBS/FFmpeg Plugin** | Use `librtmp2` (C) to add RTMP ingest support |
+| **Private RTMP Relay** | Build on `librtmp2` (C); `librtmp2-server` (Rust) is not yet protocol-capable |
+| **Stream Key / Stats / API Tooling** | Use `librtmp2-server` for its HTTP API, SQLite persistence, and key management |
 | **Broadcast Tool** | Use `librtmp2` for protocol handling, focus on your unique logic |
 | **Protocol Research** | Study the reference implementation in `librtmp2` |
 
@@ -170,39 +169,36 @@ See [librtmp2-server-panel README](https://github.com/OpenRTMP/librtmp2-server-p
 
 - **[librtmp2 API](https://github.com/OpenRTMP/librtmp2/blob/main/include/librtmp2/)** — Public header files with inline docs
 - **[librtmp2 CLAUDE.md](https://github.com/OpenRTMP/librtmp2/blob/main/CLAUDE.md)** — Build commands, architecture notes, design rules
-- **[librtmp2-server Deployment](https://github.com/OpenRTMP/librtmp2-server#deployment)** — Docker, systemd, reverse proxy
+- **[librtmp2-server Project Structure](https://github.com/OpenRTMP/librtmp2-server#project-structure)** — Rust module layout
+- **[librtmp2-server Deployment](https://github.com/OpenRTMP/librtmp2-server#docker)** — Docker deployment
 
 ---
 
 ## Building & Testing
 
-### Requirements
+### librtmp2 (C)
 
-- `gcc` or `clang` (Linux, macOS, or WSL)
-- `make`
-- `pthread` (usually included)
-
-### Supported Platforms
-
-- Linux (x86_64, ARM64)
-- macOS
-- Windows (WSL2)
-
-### Compile Options
+Requirements: `gcc` or `clang`, `make`, `pthread`.
 
 ```bash
-# librtmp2
 make debug         # Debug build with symbols
-make release       # Optimized release build
-make test          # Build and run all tests
-make asan          # AddressSanitizer (memory safety)
-make ubsan         # UndefinedBehaviorSanitizer
-make fuzz          # LibFuzzer harnesses (clang only)
+make release        # Optimized release build
+make test           # Build and run all tests
+make asan           # AddressSanitizer (memory safety)
+make ubsan          # UndefinedBehaviorSanitizer
+make fuzz           # LibFuzzer harnesses (clang only)
+make TLS=0          # Build without OpenSSL / RTMPS
+```
 
-# librtmp2-server
-make debug         # Debug build
-make release       # Release build
-make test          # Integration tests
+Supported platforms: Linux (x86_64, ARM64), macOS, Windows (WSL2).
+
+### librtmp2-server (Rust)
+
+Requirements: Rust stable toolchain (SQLite is vendored via rusqlite's `bundled` feature).
+
+```bash
+cargo build --release
+cargo test
 ```
 
 ---
@@ -215,23 +211,23 @@ We welcome bug reports, feature requests, and pull requests. Please open an issu
 
 1. Fork the repository you want to contribute to
 2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Make your changes and run tests: `make test`
+3. Make your changes and run tests (`make test` for C projects, `cargo test` for Rust)
 4. Commit with clear messages
 5. Push to your fork and open a pull request
 
 ### Code Standards
 
-- Follow existing code style (POSIX C with clarity over cleverness)
+- Follow existing code style per repository (POSIX C for `librtmp2`, idiomatic Rust for `librtmp2-server`)
 - Add unit tests for new functionality
-- Ensure all tests pass: `make test`
-- Run sanitizers in CI: `make asan && make ubsan`
+- Ensure all tests pass before opening a PR
+- Run sanitizers in CI for `librtmp2`: `make asan && make ubsan`
 
 ---
 
 ## Security
 
 - Parser safety is paramount — all network-provided lengths are bounds-checked
-- Fuzz test harnesses in `tests/fuzz/` ensure robustness
+- Fuzz test harnesses in `librtmp2/tests/fuzz/` ensure robustness
 - No buffer overflows, integer overflows, or invalid memory access
 - See `SECURITY.md` for responsible disclosure
 
@@ -253,13 +249,14 @@ All OpenRTMP projects are licensed under the **MIT License** — free to use, mo
 
 ## Roadmap
 
-### librtmp2
-- [ ] RTMPS (RTMP over TLS) support
+### librtmp2 (C)
+- [x] RTMPS (RTMP over TLS) support
 - [ ] End-to-end test suites for more edge cases
 - [ ] Performance benchmarks and optimization
 
-### librtmp2-server
-- [ ] RTMPS (RTMP over TLS) listener
+### librtmp2-server (Rust)
+- [ ] Wire the Rust RTMP/E-RTMP protocol crate into the server listener (live ingest/playback)
+- [ ] RTMPS listener (depends on the above)
 - [ ] Load balancing and clustering
 
 ---
