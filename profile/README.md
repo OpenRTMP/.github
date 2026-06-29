@@ -4,7 +4,7 @@ Modern, open-source RTMP and Enhanced RTMP protocol stack for streaming applicat
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 ![Language](https://img.shields.io/badge/language-Rust-orange)
-![Status](https://img.shields.io/badge/status-alpha-orange)
+![Status](https://img.shields.io/badge/status-alpha-red)
 
 ---
 
