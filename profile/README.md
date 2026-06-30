@@ -134,7 +134,7 @@ See the [librtmp2 repository](https://github.com/OpenRTMP/librtmp2) for crate do
 git clone https://github.com/OpenRTMP/librtmp2-server.git
 cd librtmp2-server
 cargo build --release
-./target/release/librtmp2-server -c config.example.json
+./target/release/librtmp2-server -c config.example.env
 ```
 
 See [librtmp2-server README](https://github.com/OpenRTMP/librtmp2-server#build) for configuration and deployment. Note: RTMP ingest is not yet live — see the Architecture section above.
