@@ -19,7 +19,7 @@ The project is split into focused, reusable components:
 - **[librtmp2-server-panel](https://github.com/OpenRTMP/librtmp2-server-panel)** — Web management panel
 - **[.github](https://github.com/OpenRTMP/.github)** — Organization documentation and CI/CD
 
-> **Note:** `librtmp2` and `librtmp2-server` are both Rust today, but they are separate codebases — `librtmp2-server` does not yet depend on the `librtmp2` crate for its RTMP listener. See [Architecture](#architecture) below.
+> **Note:** `librtmp2` and `librtmp2-server` are both Rust today, and separate codebases — `librtmp2-server` depends on the `librtmp2` crate to drive its RTMP/RTMPS listener. See [Architecture](#architecture) below.
 
 ---
 
@@ -56,12 +56,12 @@ A media server written in **Rust** (axum + rusqlite) that owns everything around
 - 📊 JSON and Nginx-compatible XML stats endpoints
 - 🔌 REST API for stream management (Bearer token auth)
 - 🐳 Docker-ready with Alpine base
-- ⚠️ **In progress:** the RTMP/E-RTMP wire protocol (the `librtmp2` crate) is not yet wired into the server's listener — see [`src/server.rs`](https://github.com/OpenRTMP/librtmp2-server/blob/main/src/server.rs)
+- 🔌 RTMP/E-RTMP wire protocol powered by the `librtmp2` crate, wired into the server's listener — see [`src/server.rs`](https://github.com/OpenRTMP/librtmp2-server/blob/main/src/server.rs)
 
 **Perfect for:**
-- Private streaming infrastructure (once protocol integration lands)
+- Private streaming infrastructure
 - Stream key/stats/API tooling around an RTMP deployment
-- Contributors interested in finishing the `librtmp2` integration
+- Contributors interested in extending the `librtmp2` integration
 
 ---
 
@@ -88,7 +88,7 @@ A lightweight Flask web panel for managing librtmp2-server. Create streams, moni
 
 ## Architecture
 
-`librtmp2` and `librtmp2-server` are both Rust, but independent codebases today — the server does not yet depend on the `librtmp2` crate for its RTMP listener.
+`librtmp2` and `librtmp2-server` are both Rust, independent codebases — `librtmp2-server` depends on the `librtmp2` crate to drive its RTMP/RTMPS listener.
 
 ```text
 ┌─────────────────────┐
@@ -97,15 +97,15 @@ A lightweight Flask web panel for managing librtmp2-server. Create streams, moni
            │
            ▼
    ┌──────────────────┐      ┌─────────────────────────┐
-   │  librtmp2 (Rust)  │      │  librtmp2-server (Rust)  │
+   │  librtmp2 (Rust)  │─────▶│  librtmp2-server (Rust)  │
    ├──────────────────┤      ├─────────────────────────┤
    │ Handshake         │      │ HTTP API (axum)          │
    │ Chunking          │      │ SQLite persistence       │
    │ AMF 0/3           │      │ Stream keys / stats      │
-   │ Commands          │      │ RTMP listener: pending,  │
-   │ E-RTMP v1/v2      │      │  blocked on librtmp2     │
-   │ RTMPS (TLS)       │      │  crate integration       │
-   │ extern "C" FFI    │      └─────────────────────────┘
+   │ Commands          │      │ RTMP/RTMPS listener      │
+   │ E-RTMP v1/v2      │      │  (via librtmp2 crate)    │
+   │ RTMPS (TLS)       │      └─────────────────────────┘
+   │ extern "C" FFI    │
    └──────────────────┘
            ▲
            │
@@ -137,7 +137,7 @@ cargo build --release
 ./target/release/librtmp2-server -c config.example.env
 ```
 
-See [librtmp2-server README](https://github.com/OpenRTMP/librtmp2-server#build) for configuration and deployment. Note: RTMP ingest is not yet live — see the Architecture section above.
+See [librtmp2-server README](https://github.com/OpenRTMP/librtmp2-server#build) for configuration and deployment. RTMP/RTMPS ingest runs via the embedded `librtmp2` crate — see the Architecture section above.
 
 ### Using librtmp2-server-panel (Web Panel)
 
@@ -157,7 +157,7 @@ See [librtmp2-server-panel README](https://github.com/OpenRTMP/librtmp2-server-p
 | Use Case | Solution |
 |----------|----------|
 | **OBS/FFmpeg Plugin** | Use `librtmp2` (Rust, FFI-compatible) to add RTMP ingest support from any language |
-| **Private RTMP Relay** | Build on `librtmp2`; `librtmp2-server` is not yet protocol-capable |
+| **Private RTMP Relay** | Build on `librtmp2` directly, or run `librtmp2-server`, which embeds it |
 | **Stream Key / Stats / API Tooling** | Use `librtmp2-server` for its HTTP API, SQLite persistence, and key management |
 | **Broadcast Tool** | Use `librtmp2` for protocol handling, focus on your unique logic |
 | **Protocol Research** | Study the reference implementation in `librtmp2` |
@@ -241,8 +241,8 @@ All OpenRTMP projects are licensed under the **MIT License** — free to use, mo
 - [ ] Performance benchmarks and optimization
 
 ### librtmp2-server
-- [ ] Wire the `librtmp2` crate into the server listener (live ingest/playback)
-- [ ] RTMPS listener (depends on the above)
+- [x] Wire the `librtmp2` crate into the server listener (live ingest/playback)
+- [x] RTMPS listener
 - [ ] Load balancing and clustering
 
 ---
