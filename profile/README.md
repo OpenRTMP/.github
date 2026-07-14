@@ -215,7 +215,6 @@ We welcome bug reports, feature requests, and pull requests. Please open an issu
 
 - Parser safety is paramount — all network-provided lengths are bounds-checked
 - No buffer overflows, integer overflows, or invalid memory access
-- See `SECURITY.md` for responsible disclosure
 
 ---
 
@@ -229,21 +228,6 @@ All OpenRTMP projects are licensed under the **MIT License** — free to use, mo
 
 - **Issues**: Report bugs and feature requests on the relevant GitHub repository
 - **Discussions**: Use GitHub Discussions for questions and design conversations
-- **Security**: See `SECURITY.md` in each repository for vulnerability reporting
-
----
-
-## Roadmap
-
-### librtmp2
-- [x] RTMPS (RTMP over TLS) support
-- [ ] End-to-end test suites for more edge cases
-- [ ] Performance benchmarks and optimization
-
-### librtmp2-server
-- [x] Wire the `librtmp2` crate into the server listener (live ingest/playback)
-- [x] RTMPS listener
-- [ ] Load balancing and clustering
 
 ---
 
