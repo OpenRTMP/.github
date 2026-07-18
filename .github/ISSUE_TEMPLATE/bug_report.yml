@@ -1,0 +1,121 @@
+name: Bug report
+description: Report reproducible incorrect behavior in an OpenRTMP component
+title: "bug: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a bug. Remove all API tokens, stream keys, passwords, certificates, private hosts, and personal data before submitting.
+
+        For security vulnerabilities, stop and use the private process in SECURITY.md instead.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Choose the repository/component that owns the observed behavior.
+      options:
+        - librtmp2 protocol library or C FFI
+        - librtmp2-server
+        - librtmp2-server-panel
+        - openrtmp.org website or guide
+        - Cross-repository / unsure
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      description: Include the exact release tag, Docker image tag, crate version, or commit SHA.
+      placeholder: "Example: librtmp2 0.4.1 / ghcr.io/openrtmp/librtmp2-server:0.1.6"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Operating system, architecture, deployment method, Docker version, and relevant network layout.
+      placeholder: |
+        OS: Debian 13
+        Architecture: amd64
+        Deployment: Docker Compose
+        Network/proxy: direct / nginx / TCP load balancer
+    validations:
+      required: true
+
+  - type: textarea
+    id: clients
+    attributes:
+      label: Publisher and player
+      description: Include exact OBS, FFmpeg, custom client, and player versions plus codecs/settings.
+      placeholder: |
+        Publisher: OBS ...
+        Video/audio: H.264 + AAC ...
+        Player: FFmpeg/VLC/custom ...
+        Transport: RTMP or RTMPS
+    validations:
+      required: false
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest complete publisher → server → player sequence that reproduces the problem.
+      placeholder: |
+        1. Start ...
+        2. Create stream ...
+        3. Publish ...
+        4. Connect player ...
+        5. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs or packet evidence
+      description: Include the first failure through disconnect/recovery. Replace secrets with <redacted>.
+      render: text
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: scenarios
+    attributes:
+      label: Scenario details
+      options:
+        - label: The problem involves reconnect or publisher replacement.
+        - label: The problem involves a player joining after publishing started.
+        - label: The problem involves multiple publishers or players.
+        - label: The problem only occurs with RTMPS.
+        - label: The problem only occurs with Enhanced RTMP or a modern codec.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched open and closed issues.
+          required: true
+        - label: I checked the relevant implementation-status documentation.
+          required: true
+        - label: I removed credentials and private data.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true
