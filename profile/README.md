@@ -1,249 +1,107 @@
 # OpenRTMP
 
-Modern, open-source RTMP and Enhanced RTMP protocol stack for streaming applications.
+**Modern RTMP infrastructure for developers and stream operators.**
 
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-![Language](https://img.shields.io/badge/language-Rust-orange)
-![Status](https://img.shields.io/badge/status-alpha-red)
+Build with a Rust RTMP/RTMPS and Enhanced RTMP protocol library, or deploy a private RTMP server with stream keys, REST API, live statistics, and a browser control panel.
 
----
+[![Website](https://img.shields.io/badge/website-openrtmp.org-ff5c35)](https://openrtmp.org/)
+[![Status](https://img.shields.io/badge/status-active%20alpha-red)](https://openrtmp.org/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/license/mit)
 
-## About
+[Website](https://openrtmp.org/) · [Five-minute Docker quickstart](https://openrtmp.org/quickstart/) · [Guides](https://openrtmp.org/guides/) · [Documentation](https://openrtmp.org/docs/) · [Contributing](../CONTRIBUTING.md)
 
-OpenRTMP provides a complete, production-ready implementation of RTMP (Real-Time Messaging Protocol) and its modern evolution, Enhanced RTMP (E-RTMP v1/v2). It's designed for developers and organizations building streaming solutions, media servers, broadcast tools, and OBS/FFmpeg integrations.
+> **Project status:** OpenRTMP is active alpha software. It is suitable for development, evaluation, protocol work, and deployments that have been tested against their exact clients and recovery requirements. Pin versions and validate the complete workflow before critical production use.
 
-The project is split into focused, reusable components:
+## Choose your path
 
-- **[librtmp2](https://github.com/OpenRTMP/librtmp2)** — Core protocol library (Rust, FFI-compatible)
-- **[librtmp2-server](https://github.com/OpenRTMP/librtmp2-server)** — Ready-to-run media server (Rust)
-- **[librtmp2-server-panel](https://github.com/OpenRTMP/librtmp2-server-panel)** — Web management panel
-- **[.github](https://github.com/OpenRTMP/.github)** — Organization documentation and CI/CD
+| I want to… | Start here |
+|---|---|
+| Build a custom RTMP server, client, relay, plugin, or gateway | [`librtmp2`](https://github.com/OpenRTMP/librtmp2) |
+| Run a private RTMP/RTMPS endpoint with keys, API, and statistics | [`librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server) |
+| Manage streams and view live statistics in a browser | [`librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel) |
+| Evaluate the complete stack with Docker and OBS | [Five-minute quickstart](https://openrtmp.org/quickstart/) |
+| Understand current protocol limitations | [`librtmp2` implementation status](https://github.com/OpenRTMP/librtmp2#implementation-status) |
+| Compare OpenRTMP with nginx-rtmp | [OpenRTMP vs nginx-rtmp](https://openrtmp.org/guides/openrtmp-vs-nginx-rtmp/) |
 
-> **Note:** `librtmp2` and `librtmp2-server` are both Rust today, and separate codebases — `librtmp2-server` depends on the `librtmp2` crate to drive its RTMP/RTMPS listener. See [Architecture](#architecture) below.
+## Try the complete stack
 
----
-
-## Projects
-
-### 📦 [librtmp2](https://github.com/OpenRTMP/librtmp2)
-
-A Rust library implementing the complete RTMP protocol stack — a 1:1 port of the original C `librtmp2`. Pure protocol logic with no media server, HTTP, or authentication policy built-in. Exposes both an idiomatic Rust API and an FFI-compatible `extern "C"` API (built as `cdylib`/`staticlib`/`lib`).
-
-**Key Features:**
-- ✅ Legacy RTMP handshake, chunking, and commands
-- ✅ E-RTMP v1: ExVideo, FourCC codecs (HEVC, AV1, VP9), HDR metadata
-- ✅ E-RTMP v2: Capability negotiation, reconnect, multitrack, ModEx
-- ✅ AMF0/AMF3 encoding and decoding
-- ✅ RTMPS (RTMP over TLS) via the optional `tls` Cargo feature (OpenSSL), enabled by default
-- ✅ `extern "C"` FFI layer for consumption from C, Go, Python, PHP, and others
-- ✅ Callback-based architecture for full control
-
-**Perfect for:**
-- Building custom RTMP servers
-- OBS/FFmpeg plugins
-- Broadcast tooling
-- Protocol research and education
-
----
-
-### 🎥 [librtmp2-server](https://github.com/OpenRTMP/librtmp2-server)
-
-A media server written in **Rust** (axum + rusqlite) that owns everything around the RTMP protocol — config, persistence, HTTP/REST API, CLI, logging, and stream key generation.
-
-**Key Features:**
-- 💾 SQLite-backed persistence (streams, publishers, players, stats)
-- 🔐 Key-based access control (`publish_key`, `play_key`, `stats_key`)
-- 📊 JSON and Nginx-compatible XML stats endpoints
-- 🔌 REST API for stream management (Bearer token auth)
-- 🐳 Docker-ready with Alpine base
-- 🔌 RTMP/E-RTMP wire protocol powered by the `librtmp2` crate, wired into the server's listener — see [`src/server.rs`](https://github.com/OpenRTMP/librtmp2-server/blob/main/src/server.rs)
-
-**Perfect for:**
-- Private streaming infrastructure
-- Stream key/stats/API tooling around an RTMP deployment
-- Contributors interested in extending the `librtmp2` integration
-
----
-
-### 🖥️ [librtmp2-server-panel](https://github.com/OpenRTMP/librtmp2-server-panel)
-
-A lightweight Flask web panel for managing librtmp2-server. Create streams, monitor stats, and manage keys — all from a browser.
-
-**Key Features:**
-- 🌐 Web-based stream management (create, delete, monitor)
-- 📊 Live stream statistics (bitrate, codec, viewership)
-- 🔐 Key-based publish and play URL generation
-- 🔒 CSRF protection, rate limiting, encrypted key storage
-- 🐳 Docker-ready deployment
-- 🔐 Bearer token authentication for API coordination
-- 🍞 Bootstrap dark theme
-
-**Perfect for:**
-- Stream operators managing live events
-- Production stream monitoring
-- Multi-user stream management
-- Integrating librtmp2-server into custom tooling
-
----
-
-## Architecture
-
-`librtmp2` and `librtmp2-server` are both Rust, independent codebases — `librtmp2-server` depends on the `librtmp2` crate to drive its RTMP/RTMPS listener.
-
-```text
-┌─────────────────────┐
-│  OBS / FFmpeg / App │
-└──────────┬───────────┘
-           │
-           ▼
-   ┌──────────────────┐      ┌─────────────────────────┐
-   │  librtmp2 (Rust)  │─────▶│  librtmp2-server (Rust)  │
-   ├──────────────────┤      ├─────────────────────────┤
-   │ Handshake         │      │ HTTP API (axum)          │
-   │ Chunking          │      │ SQLite persistence       │
-   │ AMF 0/3           │      │ Stream keys / stats      │
-   │ Commands          │      │ RTMP/RTMPS listener      │
-   │ E-RTMP v1/v2      │      │  (via librtmp2 crate)    │
-   │ RTMPS (TLS)       │      └─────────────────────────┘
-   │ extern "C" FFI    │
-   └──────────────────┘
-           ▲
-           │
-   Embed directly into your own
-   server / relay / plugin (Rust or FFI)
-```
-
----
-
-## Quick Start
-
-### Using librtmp2 (Protocol Library, Rust)
-
-```bash
-git clone https://github.com/OpenRTMP/librtmp2.git
-cd librtmp2
-cargo build --release
-cargo test
-```
-
-See the [librtmp2 repository](https://github.com/OpenRTMP/librtmp2) for crate docs and the `extern "C"` FFI surface in `src/lib.rs`.
-
-### Using librtmp2-server (Media Server, Rust)
-
-```bash
-git clone https://github.com/OpenRTMP/librtmp2-server.git
-cd librtmp2-server
-cargo build --release
-./target/release/librtmp2-server -c config.example.env
-```
-
-See [librtmp2-server README](https://github.com/OpenRTMP/librtmp2-server#build) for configuration and deployment. RTMP/RTMPS ingest runs via the embedded `librtmp2` crate — see the Architecture section above.
-
-### Using librtmp2-server-panel (Web Panel)
+The standalone Compose stack pulls published server, panel, and Redis images. It does not require Rust, Python package installation, or neighboring source checkouts.
 
 ```bash
 git clone https://github.com/OpenRTMP/librtmp2-server-panel.git
 cd librtmp2-server-panel
-cp .env.example .env   # Edit with your settings
-docker compose up -d   # Access at http://localhost:8000
+
+# Generate the required API token, panel password, and session secret
+# as shown in the full quickstart, then:
+docker compose -f compose.quickstart.yml up -d
 ```
 
-See [librtmp2-server-panel README](https://github.com/OpenRTMP/librtmp2-server-panel#quick-start) for configuration.
+- Panel: `http://localhost:8000`
+- API health: `http://localhost:8080/api/v1/health`
+- RTMP: `rtmp://localhost:1935/live`
 
----
+Follow the [complete quickstart](https://openrtmp.org/quickstart/) for copy-and-paste secret generation, OBS setup, health checks, troubleshooting, and the internet-facing deployment checklist.
 
-## Use Cases
+## Projects
 
-| Use Case | Solution |
-|----------|----------|
-| **OBS/FFmpeg Plugin** | Use `librtmp2` (Rust, FFI-compatible) to add RTMP ingest support from any language |
-| **Private RTMP Relay** | Build on `librtmp2` directly, or run `librtmp2-server`, which embeds it |
-| **Stream Key / Stats / API Tooling** | Use `librtmp2-server` for its HTTP API, SQLite persistence, and key management |
-| **Broadcast Tool** | Use `librtmp2` for protocol handling, focus on your unique logic |
-| **Protocol Research** | Study the reference implementation in `librtmp2` |
+### [`librtmp2`](https://github.com/OpenRTMP/librtmp2)
 
----
+A Rust protocol library for RTMP/RTMPS session handling, publish/play relay primitives, AMF, chunking, parser modules for Enhanced RTMP structures, and a C-compatible FFI.
 
-## Documentation
+Use it when your application owns authentication, storage, routing, transcoding, recording, or other media policy.
 
-- **[librtmp2 source](https://github.com/OpenRTMP/librtmp2/tree/main/src)** — Module layout (`amf`, `chunk`, `ertmp`, `flv`, `handshake`, `message`, `server`, `session`, `transport`)
-- **[librtmp2 FFI surface](https://github.com/OpenRTMP/librtmp2/blob/main/src/lib.rs)** — `extern "C"` exports for non-Rust consumers
-- **[librtmp2-server Project Structure](https://github.com/OpenRTMP/librtmp2-server#project-structure)** — Rust module layout
-- **[librtmp2-server Deployment](https://github.com/OpenRTMP/librtmp2-server#docker)** — Docker deployment
+### [`librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server)
 
----
+A focused RTMP/RTMPS application layer built on `librtmp2`:
 
-## Building & Testing
+- SQLite-backed stream registry
+- Per-stream publish, play, and statistics keys
+- Bearer-authenticated REST API
+- JSON statistics
+- nginx-rtmp-compatible XML statistics
+- Optional RTMPS listener alongside plaintext RTMP
+- Published multi-architecture Docker images
 
-Both `librtmp2` and `librtmp2-server` are Rust crates built with a stable Rust toolchain.
+The current server does **not** aim to provide nginx-rtmp feature parity for HLS, recording, `exec`, push relay, or every nginx directive.
 
-```bash
-# librtmp2
-cargo build --release
-cargo test
+### [`librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel)
 
-# librtmp2-server
-cargo build --release
-cargo test
-```
+A Flask web UI for creating and deleting streams, copying publish/play/statistics URLs, and monitoring live bitrate, codec, resolution, frame rate, RTT, uptime, publishers, and players.
 
-`librtmp2`'s `tls` Cargo feature (OpenSSL-backed RTMPS) is enabled by default; build without it via `cargo build --no-default-features`. SQLite for `librtmp2-server` is vendored via rusqlite's `bundled` feature — no system SQLite3 needed.
+## Enhanced RTMP and codec support
 
----
+OpenRTMP works on modern codec and Enhanced RTMP workflows, including HEVC, AV1, and Opus signaling/passthrough where supported by the complete sender/server/player chain.
+
+Protocol parser support, opaque media relay, and fully integrated session negotiation are different levels of implementation. The [`librtmp2` implementation status](https://github.com/OpenRTMP/librtmp2#implementation-status) is the code-accurate source of truth for what is complete, partial, parser-only, or not yet wired into the default live path.
+
+## Good fit today
+
+- Private RTMP/RTMPS ingest and playback
+- Custom Rust or FFI-based RTMP applications
+- OBS and FFmpeg interoperability work
+- Stream-key and statistics integrations
+- nginx-compatible monitoring migrations
+- Enhanced RTMP research and implementation
+- Parser, fuzzing, and network-safety contributions
+
+Consider a broader media platform when you need a turnkey viewer website, built-in HLS, recording, transcoding, push relay, or many non-RTMP protocols.
 
 ## Contributing
 
-We welcome bug reports, feature requests, and pull requests. Please open an issue first to discuss significant changes.
+Contributions are welcome across protocol code, server behavior, the panel, documentation, interoperability tests, fuzzing, and deployment examples.
 
-### Development
+1. Read the organization-wide [contributing guide](../CONTRIBUTING.md).
+2. Choose the repository that owns the behavior.
+3. Search existing issues and discussions before opening a duplicate.
+4. Start with an issue labeled `good first issue` or `help wanted` when available.
+5. Include tests and exact reproduction steps for behavioral changes.
 
-1. Fork the repository you want to contribute to
-2. Create a feature branch: `git checkout -b feature/my-feature`
-3. Make your changes and run tests: `cargo test`
-4. Commit with clear messages
-5. Push to your fork and open a pull request
-
-### Code Standards
-
-- Follow existing idiomatic Rust style for the repository you're contributing to
-- Add unit tests for new functionality
-- Ensure all tests pass: `cargo test`
-
----
+See the public [roadmap](../ROADMAP.md) for current priorities and the [support guide](../SUPPORT.md) for where to ask questions or report bugs.
 
 ## Security
 
-- Parser safety is paramount — all network-provided lengths are bounds-checked
-- No buffer overflows, integer overflows, or invalid memory access
-
----
+Do not publish security-sensitive details in a public issue. Follow the organization [security policy](../SECURITY.md).
 
 ## License
 
-All OpenRTMP projects are licensed under the **MIT License** — free to use, modify, and distribute, including for commercial purposes. See individual repositories for the LICENSE file.
-
----
-
-## Support
-
-- **Issues**: Report bugs and feature requests on the relevant GitHub repository
-- **Discussions**: Use GitHub Discussions for questions and design conversations
-
----
-
-## Related Projects
-
-- **[FFmpeg RTMP Module](https://ffmpeg.org/)** — Audio/video transcoding
-- **[OBS Studio](https://obsproject.com/)** — Open Broadcaster Software
-- **[RTMP Spec](https://rtmp.veriskope.com/pdf/amf0-file-format-specification.pdf)** — Original Adobe specification
-- **[RTMP Forum](https://github.com/veovera/enhance-rtmp)** — Enhanced RTMP specifications
-
----
-
-## Acknowledgments
-
-OpenRTMP is maintained by the community and inspired by the needs of modern streaming infrastructure. Built on years of RTMP protocol experience and battle-tested in production.
-
----
-
-**Made with ❤️ for the open-source streaming community.**
+OpenRTMP projects are released under the MIT License unless a repository states otherwise.
