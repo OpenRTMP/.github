@@ -25,7 +25,7 @@ Build with a Rust RTMP/RTMPS and Enhanced RTMP protocol library, or deploy a pri
 
 ## Try the complete stack
 
-The standalone Compose stack pulls published server, panel, and Redis images. It does not require Rust, Python package installation, or neighboring source checkouts.
+The standalone Compose stack pulls published server, panel, and Redis images. You don't need to clone or build `librtmp2` or `librtmp2-server`; clone the panel repository only to get its `compose.quickstart.yml`.
 
 ```bash
 git clone https://github.com/OpenRTMP/librtmp2-server-panel.git

@@ -61,8 +61,13 @@ Create a virtual environment, install the repository requirements, and run the d
 ### Website
 
 ```bash
-php -S localhost:8090
 find . -name '*.php' -print0 | xargs -0 -n1 php -l
+```
+
+In a separate terminal, run the dev server to preview pages:
+
+```bash
+php -S localhost:8090
 ```
 
 Check canonical URLs, page titles, descriptions, internal links, code-block overflow, tables on mobile, `sitemap.xml`, and every new public path.
