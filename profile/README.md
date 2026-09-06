@@ -8,7 +8,7 @@ Build with a Rust RTMP/RTMPS and Enhanced RTMP protocol library, or deploy a pri
 [![Status](https://img.shields.io/badge/status-active%20alpha-red)](https://openrtmp.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/license/mit)
 
-[Website](https://openrtmp.org/) · [Five-minute Docker quickstart](https://openrtmp.org/quickstart/) · [Guides](https://openrtmp.org/guides/) · [Documentation](https://openrtmp.org/docs/) · [Contributing](../CONTRIBUTING.md)
+[Website](https://openrtmp.org/) · [Five-minute Docker quickstart](https://openrtmp.org/quickstart/) · [Guides](https://openrtmp.org/guides/) · [Documentation](https://openrtmp.org/docs/) · [Community](https://github.com/OpenRTMP/community) · [Issues](https://github.com/OpenRTMP/community/issues) · [Discussions](https://github.com/OpenRTMP/community/discussions) · [Contributing](../CONTRIBUTING.md)
 
 > **Project status:** OpenRTMP is active alpha software. It is suitable for development, evaluation, protocol work, and deployments that have been tested against their exact clients and recovery requirements. Pin versions and validate the complete workflow before critical production use.
 
@@ -19,6 +19,8 @@ Build with a Rust RTMP/RTMPS and Enhanced RTMP protocol library, or deploy a pri
 | Build a custom RTMP server, client, relay, plugin, or gateway | [`librtmp2`](https://github.com/OpenRTMP/librtmp2) |
 | Run a private RTMP/RTMPS endpoint with keys, API, and statistics | [`librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server) |
 | Manage streams and view live statistics in a browser | [`librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel) |
+| Report a bug or request a feature | [OpenRTMP Community Issues](https://github.com/OpenRTMP/community/issues/new/choose) |
+| Ask a question or discuss an idea | [OpenRTMP Community Discussions](https://github.com/OpenRTMP/community/discussions) |
 | Evaluate the complete stack with Docker and OBS | [Five-minute quickstart](https://openrtmp.org/quickstart/) |
 | Understand current protocol limitations | [`librtmp2` implementation status](https://github.com/OpenRTMP/librtmp2#implementation-status) |
 | Compare OpenRTMP with nginx-rtmp | [OpenRTMP vs nginx-rtmp](https://openrtmp.org/guides/openrtmp-vs-nginx-rtmp/) |
@@ -86,21 +88,23 @@ Protocol parser support, opaque media relay, and fully integrated session negoti
 
 Consider a broader media platform when you need a turnkey viewer website, built-in HLS, recording, transcoding, push relay, or many non-RTMP protocols.
 
-## Contributing
+## Community and contributing
+
+Use [OpenRTMP Community Issues](https://github.com/OpenRTMP/community/issues/new/choose) for reproducible bugs, feature requests, documentation/package problems, and interoperability reports. Use [OpenRTMP Community Discussions](https://github.com/OpenRTMP/community/discussions) for setup help, usage questions, ideas, and design discussion.
 
 Contributions are welcome across protocol code, server behavior, the panel, documentation, interoperability tests, fuzzing, and deployment examples.
 
 1. Read the organization-wide [contributing guide](../CONTRIBUTING.md).
-2. Choose the repository that owns the behavior.
-3. Search existing issues and discussions before opening a duplicate.
-4. Start with an issue labeled `good first issue` or `help wanted` when available.
+2. Start or find the central community issue/discussion when coordination is needed.
+3. Choose the source repository that owns the implementation.
+4. Open the pull request in that source repository and link the central tracking issue when applicable.
 5. Include tests and exact reproduction steps for behavioral changes.
 
-See the public [roadmap](../ROADMAP.md) for current priorities and the [support guide](../SUPPORT.md) for where to ask questions or report bugs.
+See the public [roadmap](../ROADMAP.md) for current priorities and the [support guide](../SUPPORT.md) for reporting and support guidance.
 
 ## Security
 
-Do not publish security-sensitive details in a public issue. Follow the organization [security policy](../SECURITY.md).
+Do not publish security-sensitive details in a public issue or discussion. Follow the organization [security policy](../SECURITY.md).
 
 ## License
 
