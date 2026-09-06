@@ -89,7 +89,7 @@ Unless the roadmap changes through design discussion, `librtmp2-server` is not t
 
 ## Suggesting roadmap changes
 
-Open a focused issue or discussion describing:
+Open a focused [community issue](https://github.com/OpenRTMP/community/issues/new/choose) or [community discussion](https://github.com/OpenRTMP/community/discussions) describing:
 
 - The user or developer problem
 - Why it belongs in OpenRTMP rather than an adjacent component
@@ -97,4 +97,4 @@ Open a focused issue or discussion describing:
 - Interoperability and compatibility impact
 - A testable completion definition
 
-Large changes should begin with a design discussion before implementation.
+Large changes should begin with a [design discussion](https://github.com/OpenRTMP/community/discussions) before implementation.
