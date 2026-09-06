@@ -4,27 +4,39 @@ Thank you for helping improve OpenRTMP. Contributions are welcome in protocol co
 
 OpenRTMP is active alpha software. Clear scope, reproducible evidence, and tests are especially important while public APIs and protocol behavior are still evolving.
 
+## Community intake
+
+OpenRTMP uses [`OpenRTMP/community`](https://github.com/OpenRTMP/community) as the central place for issues and discussions across the ecosystem:
+
+- [Issues](https://github.com/OpenRTMP/community/issues/new/choose) — reproducible bugs, feature requests, documentation/package problems, and interoperability reports
+- [Discussions](https://github.com/OpenRTMP/community/discussions) — setup help, usage questions, ideas, feedback, and design discussions that are not yet actionable
+
+Pull requests stay in the source repository that owns the implementation.
+
 ## Choose the correct repository
 
 | Change | Repository |
 |---|---|
 | RTMP handshake, chunking, AMF, client/server sessions, relay behavior, RTMPS transport, Enhanced RTMP parsers, C FFI | [`OpenRTMP/librtmp2`](https://github.com/OpenRTMP/librtmp2) |
-| Stream registry, authentication, SQLite, HTTP API, statistics, listener configuration, server Docker image | [`OpenRTMP/librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server) |
+| Stream registry, authentication, SQLite, HTTP API, statistics, listener configuration, clustering, server Docker image | [`OpenRTMP/librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server) |
 | Browser UI, panel authentication, API client behavior, copied URLs, live statistics presentation, panel Docker image | [`OpenRTMP/librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel) |
+| Debian, Ubuntu, Alpine packages and package repository automation | [`OpenRTMP/packages`](https://github.com/OpenRTMP/packages) |
 | Public website, guides, SEO, quickstart, docs presentation | [`OpenRTMP/openrtmp.org`](https://github.com/OpenRTMP/openrtmp.org) |
+| Central issues, discussions, and cross-project tracking | [`OpenRTMP/community`](https://github.com/OpenRTMP/community) |
 | Organization profile and shared community health files | [`OpenRTMP/.github`](https://github.com/OpenRTMP/.github) |
 
-When a change spans multiple repositories, open one tracking issue that links the required pull requests and states the merge order.
+When a change spans multiple repositories, open one [central tracking issue](https://github.com/OpenRTMP/community/issues/new/choose) that links the required pull requests and states the merge order.
 
 ## Before opening an issue
 
-- Search existing open and closed issues.
+- Search existing [community issues](https://github.com/OpenRTMP/community/issues) and [discussions](https://github.com/OpenRTMP/community/discussions).
 - Check the relevant implementation-status section and current release notes.
 - Reproduce the behavior with the latest supported release or the current default branch.
 - Reduce the case to the smallest publisher/server/player combination that still fails.
 - Remove stream keys, API tokens, certificates, private hostnames, and personal data.
+- Open the report through the [central community issue forms](https://github.com/OpenRTMP/community/issues/new/choose), not in an individual source repository.
 
-General usage questions and design discussions belong in GitHub Discussions when they are not actionable bug reports.
+General usage questions and design discussions belong in [OpenRTMP Community Discussions](https://github.com/OpenRTMP/community/discussions) when they are not actionable bug reports.
 
 ## Good bug reports
 
@@ -101,6 +113,8 @@ Changes affecting public APIs, FFI layout, configuration variables, database sch
 ## Documentation
 
 Update the relevant README, implementation-status table, examples, and website guide in the same change or in linked pull requests. Avoid hard-coded “latest” version numbers on the website when crates.io or GitHub Releases can remain the source of truth.
+
+When adding support or community links, point issues to [`OpenRTMP/community/issues`](https://github.com/OpenRTMP/community/issues) and discussions to [`OpenRTMP/community/discussions`](https://github.com/OpenRTMP/community/discussions), rather than to an individual source repository.
 
 ## Commit and review hygiene
 
