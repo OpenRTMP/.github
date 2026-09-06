@@ -4,45 +4,55 @@ OpenRTMP is a community-maintained alpha project. There is no guaranteed respons
 
 ## Where to ask
 
-### Reproducible bug
+### Reproducible bug, feature request, or interoperability problem
 
-Open an issue in the repository that owns the behavior:
+Use the central [OpenRTMP community issue tracker](https://github.com/OpenRTMP/community/issues/new/choose) for every OpenRTMP component.
 
-- Protocol, RTMPS transport, client/server session, relay, parser, or FFI: [`librtmp2`](https://github.com/OpenRTMP/librtmp2/issues)
-- Server API, SQLite, keys, statistics, listener configuration, or server image: [`librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server/issues)
-- Panel UI, authentication, copied URLs, API client, or panel image: [`librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel/issues)
-- Website, quickstart, or guide: [`openrtmp.org`](https://github.com/OpenRTMP/openrtmp.org/issues)
+Choose the closest component in the issue form. You do not need to determine the exact source repository before reporting a problem; maintainers can triage it centrally.
 
-Use the bug-report template and include exact versions, deployment method, reproduction steps, sanitized logs, and the complete publisher → server → player path.
+| Component | Typical scope | Source repository |
+|---|---|---|
+| `librtmp2` | Protocol, RTMPS transport, client/server sessions, relay, parsers, Enhanced RTMP, C FFI | [`OpenRTMP/librtmp2`](https://github.com/OpenRTMP/librtmp2) |
+| `librtmp2-server` | Server API, SQLite, keys, statistics, listener configuration, clustering, server image | [`OpenRTMP/librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server) |
+| `librtmp2-server-panel` | Panel UI, authentication, copied URLs, API client, live statistics, panel image | [`OpenRTMP/librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel) |
+| `packages` | Debian, Ubuntu, Alpine packages and package automation | [`OpenRTMP/packages`](https://github.com/OpenRTMP/packages) |
+| `openrtmp.org` | Website, documentation presentation, quickstart, or guides | [`OpenRTMP/openrtmp.org`](https://github.com/OpenRTMP/openrtmp.org) |
+| `organization/community` | Shared policy, community process, or cross-project topics | [`OpenRTMP/community`](https://github.com/OpenRTMP/community) |
 
-### Usage question or design discussion
+Use the appropriate issue form and include exact versions, deployment method, reproduction steps, sanitized logs, and the complete publisher → server → player path when relevant.
 
-Use [GitHub Discussions](https://github.com/OpenRTMP/librtmp2/discussions) when the question is not yet a reproducible bug or when you want feedback on architecture before implementing a large change.
+### Usage question, setup help, idea, or design discussion
+
+Use [OpenRTMP Community Discussions](https://github.com/OpenRTMP/community/discussions) when the topic is not yet an actionable issue, when you need setup help, or when you want feedback on architecture before implementing a large change.
 
 ### Security issue
 
-Do not open a public issue. Follow [SECURITY.md](SECURITY.md).
+Do not open a public issue or discussion. Follow [SECURITY.md](SECURITY.md).
 
 ## Before asking for help
 
-1. Check the relevant README and implementation-status table.
-2. Search open and closed issues.
+1. Check the relevant README, documentation, and implementation-status table.
+2. Search existing [community issues](https://github.com/OpenRTMP/community/issues) and [discussions](https://github.com/OpenRTMP/community/discussions).
 3. Test the latest supported release or current default branch.
 4. Reduce the setup to the smallest case that still fails.
 5. Remove API tokens, stream keys, certificates, private hosts, and personal data.
 
 ## Information that speeds up diagnosis
 
-- Repository and version/commit
+- OpenRTMP component and version/commit
 - Operating system and CPU architecture
-- Docker image tag or native build command
-- OBS, FFmpeg, and player versions
+- Docker image tag, package version, or native build command
+- OBS, FFmpeg, player, browser, or integration versions
 - Audio/video codecs and output settings
 - RTMP or RTMPS URL shape with credentials removed
 - Relevant environment variables with secrets replaced by `<redacted>`
 - Logs from the first failure through disconnect/recovery
 - Whether the problem occurs with one or multiple publishers/players
-- Whether late join, reconnect, or server restart is involved
+- Whether late join, reconnect, clustering, or server restart is involved
+
+## Cross-repository work
+
+Source-code pull requests stay in the repository that owns the implementation. When a change spans multiple repositories, use one central [community issue](https://github.com/OpenRTMP/community/issues/new/choose) to track the related pull requests and merge order.
 
 ## Scope
 

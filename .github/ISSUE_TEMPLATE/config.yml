@@ -1,8 +1,11 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Usage questions and design discussions
-    url: https://github.com/OpenRTMP/librtmp2/discussions
-    about: Ask for setup help or discuss architecture before opening an actionable issue.
+  - name: OpenRTMP central issue tracker
+    url: https://github.com/OpenRTMP/community/issues/new/choose
+    about: Report bugs, request features, or file interoperability problems for any OpenRTMP component.
+  - name: Questions, setup help, and design discussions
+    url: https://github.com/OpenRTMP/community/discussions
+    about: Ask for help, share ideas, or discuss architecture before opening an actionable issue.
   - name: Documentation and quickstart
     url: https://openrtmp.org/quickstart/
     about: Start with the Docker/OBS guide and linked troubleshooting steps.
