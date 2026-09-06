@@ -12,11 +12,13 @@ Please do **not** disclose suspected vulnerabilities in public issues, discussio
 
 Preferred reporting path:
 
-1. Open the affected repository on GitHub.
+1. Open the affected source repository on GitHub.
 2. Select **Security**.
 3. Choose **Report a vulnerability** to create a private security advisory.
 
 If private vulnerability reporting is not available for the affected repository, email `info@openrtmp.org` with the subject `SECURITY: <short description>` and avoid sending real production credentials or private keys.
+
+Do not use the central community issue tracker or community discussions for vulnerability reports.
 
 ## Include
 
@@ -69,4 +71,4 @@ Reports may include:
 - CSRF, session, rate-limit, or encryption weaknesses in the panel
 - SQL or API access-control vulnerabilities
 
-General hardening suggestions, unsupported deployment configurations, and missing non-security features should use normal issues or discussions.
+General hardening suggestions, unsupported deployment configurations, and missing non-security features should use the central [community issue tracker](https://github.com/OpenRTMP/community/issues/new/choose) or [community discussions](https://github.com/OpenRTMP/community/discussions).
