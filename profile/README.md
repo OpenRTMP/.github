@@ -4,6 +4,10 @@
 
 Build with a Rust RTMP/RTMPS and Enhanced RTMP protocol library, or deploy a private RTMP server with stream keys, REST API, live statistics, and a browser control panel.
 
+![librtmp2-server-panel dashboard: a stream expanded showing publish/play URLs and live bitrate, codec, resolution, FPS, RTT and player-count stats](assets/dashboard-demo.png)
+
+*The [`librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel) web UI — create a stream, get publish/play URLs and keys, and watch live stats. Sample data, from a local run.*
+
 [![Website](https://img.shields.io/badge/website-openrtmp.org-ff5c35)](https://openrtmp.org/)
 [![Status](https://img.shields.io/badge/status-active%20alpha-red)](https://openrtmp.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/license/mit)
