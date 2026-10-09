@@ -20,7 +20,7 @@ Pull requests stay in the source repository that owns the implementation.
 | RTMP handshake, chunking, AMF, client/server sessions, relay behavior, RTMPS transport, Enhanced RTMP parsers, C FFI | [`OpenRTMP/librtmp2`](https://github.com/OpenRTMP/librtmp2) |
 | Stream registry, authentication, SQLite, HTTP API, statistics, listener configuration, clustering, server Docker image | [`OpenRTMP/librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server) |
 | Browser UI, panel authentication, API client behavior, copied URLs, live statistics presentation, panel Docker image | [`OpenRTMP/librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel) |
-| Debian, Ubuntu, Alpine packages and package repository automation | [`OpenRTMP/packages`](https://github.com/OpenRTMP/packages) |
+| `librtmp2` packages (Debian, Ubuntu, Alpine, Fedora, Enterprise Linux, openSUSE, Arch Linux, Homebrew, Windows) and package repository automation | [`OpenRTMP/packages`](https://github.com/OpenRTMP/packages) |
 | Public website, guides, SEO, quickstart, docs presentation | [`OpenRTMP/openrtmp.org`](https://github.com/OpenRTMP/openrtmp.org) |
 | Central issues, discussions, and cross-project tracking | [`OpenRTMP/community`](https://github.com/OpenRTMP/community) |
 | Organization profile and shared community health files | [`OpenRTMP/.github`](https://github.com/OpenRTMP/.github) |
@@ -58,10 +58,25 @@ A successful TCP connection or publish command does not prove end-to-end codec c
 
 ### Rust projects
 
+Each Rust repository lists its exact checks in its own `CONTRIBUTING.md` and CI workflows; those take precedence over this summary.
+
+`librtmp2` (checked with TLS on and off):
+
 ```bash
 cargo fmt --all -- --check
-cargo clippy --all-targets --all-features -- -D warnings
-cargo test --all-features
+cargo clippy --locked --all-targets --all-features -- -D warnings
+cargo clippy --locked --all-targets --no-default-features -- -D warnings
+cargo test --locked --all-features
+cargo test --no-default-features
+```
+
+`librtmp2-server`:
+
+```bash
+cargo fmt --check
+cargo clippy --locked --all-targets --features test-support -- -D warnings
+cargo test --features test-support -- --test-threads=1
+cargo test --lib --features cluster,test-support -- --test-threads=1
 ```
 
 Run repository-specific interoperability and fuzz tests when changing network parsers, state machines, media initialization, relay queues, or TLS behavior.

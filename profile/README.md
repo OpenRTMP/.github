@@ -29,7 +29,7 @@ Both are real local sessions against a running librtmp2-server with sample data.
 [![Status](https://img.shields.io/badge/status-active%20alpha-red)](https://openrtmp.org/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](https://opensource.org/license/mit)
 
-[Website](https://openrtmp.org/) · [Five-minute Docker quickstart](https://openrtmp.org/quickstart/) · [Guides](https://openrtmp.org/guides/) · [Documentation](https://openrtmp.org/docs/) · [Community](https://github.com/OpenRTMP/community) · [Issues](https://github.com/OpenRTMP/community/issues) · [Discussions](https://github.com/OpenRTMP/community/discussions) · [Contributing](../CONTRIBUTING.md)
+[Website](https://openrtmp.org/) · [Five-minute Docker quickstart](https://openrtmp.org/quickstart/) · [Guides](https://openrtmp.org/guides/) · [Documentation](https://openrtmp.org/docs/) · [Community](https://github.com/OpenRTMP/community) · [Issues](https://github.com/OpenRTMP/community/issues) · [Discussions](https://github.com/OpenRTMP/community/discussions) · [Contributing](https://github.com/OpenRTMP/.github/blob/main/CONTRIBUTING.md)
 
 > **Project status:** OpenRTMP is active alpha software. It is suitable for development, evaluation, protocol work, and deployments that have been tested against their exact clients and recovery requirements. Pin versions and validate the complete workflow before critical production use.
 
@@ -37,7 +37,7 @@ Both are real local sessions against a running librtmp2-server with sample data.
 
 **OpenRTMP is the umbrella project.** The repository names below are the implementation components behind one RTMP-focused ecosystem.
 
-![OpenRTMP architecture: OBS, FFmpeg and other apps publish to the OpenRTMP Server (librtmp2-server), which serves RTMP and RTMPS players and is built on the OpenRTMP Protocol Library (librtmp2). The OpenRTMP Control Panel (librtmp2-server-panel) manages the server over its REST API, and OpenRTMP Packages distributes the server and the library.](assets/architecture.png)
+![OpenRTMP architecture: OBS, FFmpeg and other apps publish to the OpenRTMP Server (librtmp2-server), which serves RTMP and RTMPS players and is built on the OpenRTMP Protocol Library (librtmp2). The OpenRTMP Control Panel (librtmp2-server-panel) manages the server over its REST API, and OpenRTMP Packages distributes the library as native packages.](assets/architecture.png)
 
 Use the complete stack when you want a self-hosted RTMP service, or adopt only the library/server component your application needs.
 
@@ -101,7 +101,7 @@ A Flask web UI for creating and deleting streams, copying publish/play/statistic
 
 ### OpenRTMP Packages — [`packages`](https://github.com/OpenRTMP/packages)
 
-Official package repositories and distribution automation for OpenRTMP components across supported Linux distributions, macOS, and Windows.
+Signed native packages of `librtmp2` for Debian, Ubuntu, Alpine, Fedora, Enterprise Linux, openSUSE, Arch Linux, Homebrew, and Windows, plus the automation that builds them. The server and panel ship as Docker images.
 
 ## Enhanced RTMP and codec support
 
@@ -127,17 +127,17 @@ Use [OpenRTMP Community Issues](https://github.com/OpenRTMP/community/issues/new
 
 Contributions are welcome across protocol code, server behavior, the panel, documentation, interoperability tests, fuzzing, and deployment examples.
 
-1. Read the organization-wide [contributing guide](../CONTRIBUTING.md).
+1. Read the organization-wide [contributing guide](https://github.com/OpenRTMP/.github/blob/main/CONTRIBUTING.md).
 2. Start or find the central community issue/discussion when coordination is needed.
 3. Choose the source repository that owns the implementation.
 4. Open the pull request in that source repository and link the central tracking issue when applicable.
 5. Include tests and exact reproduction steps for behavioral changes.
 
-See the public [roadmap](../ROADMAP.md) for current priorities and the [support guide](../SUPPORT.md) for reporting and support guidance.
+See the public [roadmap](https://github.com/OpenRTMP/.github/blob/main/ROADMAP.md) for current priorities and the [support guide](https://github.com/OpenRTMP/.github/blob/main/SUPPORT.md) for reporting and support guidance.
 
 ## Security
 
-Do not publish security-sensitive details in a public issue or discussion. Follow the organization [security policy](../SECURITY.md).
+Do not publish security-sensitive details in a public issue or discussion. Follow the organization [security policy](https://github.com/OpenRTMP/.github/blob/main/SECURITY.md).
 
 ## License
 
