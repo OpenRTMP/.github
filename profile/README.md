@@ -37,15 +37,7 @@ Both are real local sessions against a running librtmp2-server with sample data.
 
 **OpenRTMP is the umbrella project.** The repository names below are the implementation components behind one RTMP-focused ecosystem.
 
-```mermaid
-flowchart LR
-    Clients["OBS / FFmpeg / Apps"] --> Server["OpenRTMP Server<br/>librtmp2-server"]
-    Server --> Players["RTMP / RTMPS Players"]
-    Panel["OpenRTMP Control Panel<br/>librtmp2-server-panel"] -->|REST API| Server
-    Server --> Library["OpenRTMP Protocol Library<br/>librtmp2"]
-    Packages["OpenRTMP Packages<br/>packages"] -. distributes .-> Server
-    Packages -. distributes .-> Library
-```
+![OpenRTMP architecture: OBS, FFmpeg and other apps publish to the OpenRTMP Server (librtmp2-server), which serves RTMP and RTMPS players and is built on the OpenRTMP Protocol Library (librtmp2). The OpenRTMP Control Panel (librtmp2-server-panel) manages the server over its REST API, and OpenRTMP Packages distributes the server and the library.](assets/architecture.png)
 
 Use the complete stack when you want a self-hosted RTMP service, or adopt only the library/server component your application needs.
 
