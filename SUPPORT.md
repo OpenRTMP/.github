@@ -15,7 +15,7 @@ Choose the closest component in the issue form. You do not need to determine the
 | `librtmp2` | Protocol, RTMPS transport, client/server sessions, relay, parsers, Enhanced RTMP, C FFI | [`OpenRTMP/librtmp2`](https://github.com/OpenRTMP/librtmp2) |
 | `librtmp2-server` | Server API, SQLite, keys, statistics, listener configuration, clustering, server image | [`OpenRTMP/librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server) |
 | `librtmp2-server-panel` | Panel UI, authentication, copied URLs, API client, live statistics, panel image | [`OpenRTMP/librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel) |
-| `packages` | Debian, Ubuntu, Alpine packages and package automation | [`OpenRTMP/packages`](https://github.com/OpenRTMP/packages) |
+| `packages` | `librtmp2` packages (Debian, Ubuntu, Alpine, Fedora, Enterprise Linux, openSUSE, Arch Linux, Homebrew, and Windows for releases with native Windows support) and package automation | [`OpenRTMP/packages`](https://github.com/OpenRTMP/packages) |
 | `openrtmp.org` | Website, documentation presentation, quickstart, or guides | [`OpenRTMP/openrtmp.org`](https://github.com/OpenRTMP/openrtmp.org) |
 | `organization/community` | Shared policy, community process, or cross-project topics | [`OpenRTMP/community`](https://github.com/OpenRTMP/community) |
 
