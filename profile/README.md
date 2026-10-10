@@ -101,7 +101,7 @@ A Flask web UI for creating and deleting streams, copying publish/play/statistic
 
 ### OpenRTMP Packages — [`packages`](https://github.com/OpenRTMP/packages)
 
-Signed native packages of `librtmp2` for Debian, Ubuntu, Alpine, Fedora, Enterprise Linux, openSUSE, Arch Linux, and Homebrew, plus the automation that builds them. Windows packages are built from the first `librtmp2` release with native Windows support onward. The server and panel ship as Docker images.
+Signed native packages of `librtmp2` for Debian, Ubuntu, Alpine, Fedora, Enterprise Linux, openSUSE, and Arch Linux, a Homebrew tap, and the automation that builds them. Windows packages are built from the first `librtmp2` release with native Windows support onward. The server and panel ship as Docker images.
 
 ## Enhanced RTMP and codec support
 

@@ -20,7 +20,7 @@ Pull requests stay in the source repository that owns the implementation.
 | RTMP handshake, chunking, AMF, client/server sessions, relay behavior, RTMPS transport, Enhanced RTMP parsers, C FFI | [`OpenRTMP/librtmp2`](https://github.com/OpenRTMP/librtmp2) |
 | Stream registry, authentication, SQLite, HTTP API, statistics, listener configuration, clustering, server Docker image | [`OpenRTMP/librtmp2-server`](https://github.com/OpenRTMP/librtmp2-server) |
 | Browser UI, panel authentication, API client behavior, copied URLs, live statistics presentation, panel Docker image | [`OpenRTMP/librtmp2-server-panel`](https://github.com/OpenRTMP/librtmp2-server-panel) |
-| `librtmp2` packages (Debian, Ubuntu, Alpine, Fedora, Enterprise Linux, openSUSE, Arch Linux, Homebrew, Windows) and package repository automation | [`OpenRTMP/packages`](https://github.com/OpenRTMP/packages) |
+| `librtmp2` packages (Debian, Ubuntu, Alpine, Fedora, Enterprise Linux, openSUSE, Arch Linux, Homebrew, and Windows for releases with native Windows support) and package repository automation | [`OpenRTMP/packages`](https://github.com/OpenRTMP/packages) |
 | Public website, guides, SEO, quickstart, docs presentation | [`OpenRTMP/openrtmp.org`](https://github.com/OpenRTMP/openrtmp.org) |
 | Central issues, discussions, and cross-project tracking | [`OpenRTMP/community`](https://github.com/OpenRTMP/community) |
 | Organization profile and shared community health files | [`OpenRTMP/.github`](https://github.com/OpenRTMP/.github) |
