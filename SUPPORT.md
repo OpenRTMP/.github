@@ -56,7 +56,7 @@ Source-code pull requests stay in the repository that owns the implementation. W
 
 ## Scope
 
-The current server does not provide built-in HLS, recording, transcoding, `exec`, push relay, a public viewer website, or broad non-RTMP protocol support. Requests that fundamentally require an all-in-one media platform may be redirected to another project or proposed as an external integration.
+The current server is not an all-in-one media platform: it provides no public viewer website and no broad non-RTMP protocol support. Optional, off-by-default recording, HLS (including optional H.264/AAC transcoding), RTMP/RTMPS push relay and publish `exec` hooks are available; HLS, push and transcoding require FFmpeg. Requests that fundamentally require an all-in-one media platform may be redirected to another project or proposed as an external integration.
 
 ## Community conduct
 
